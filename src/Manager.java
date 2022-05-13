@@ -7,7 +7,7 @@ public class Manager {
     private ArrayList<User> allUsers;
 
     public Manager(){
-
+        allUsers = new ArrayList<User>();
     }
     public void addUser(User user){
         allUsers.add(user);
@@ -19,6 +19,21 @@ public class Manager {
             }
         }
         return null;
+    }
+    public boolean userNameExists(String username){
+        for (int i = 0; i < allUsers.size(); i++){
+            if (allUsers.get(i).getUserName().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean correctPassword(String username, String password){
+        User u = findUser(username);
+        if (u.getPassword().equals(password)){
+            return true;
+        }
+        return false;
     }
     public boolean createUserAccount(String username, String password){
         boolean userAlreadyExists = false;
@@ -42,11 +57,13 @@ public class Manager {
         return true;
     }
 
-    public void createRecipe(User user, String recipeName, ArrayList<String> ingredients, ArrayList<String> instructions, ArrayList<Double> costs){
+    public void createRecipe(User user, String recipeName, String recipeDescription, ArrayList<String> ingredients, ArrayList<String> instructions){
         Recipe r = new Recipe(user.getUserName(), recipeName);
+        r.setRecipeDescription(recipeDescription);
         r.setIngredients(ingredients);
         r.setInstructions(instructions);
-        r.setCosts(costs);
+        user.addToUserRecipes(r);
+       // r.setCosts(costs);
     }
 
     public void save(User user){
@@ -66,12 +83,12 @@ public class Manager {
                 for (int j = 0; j < recipes.get(i).getInstructions().size() - 1; j++){
                     fw.write(recipes.get(i).getInstructions().get(j) + "|");
                 }
-                fw.write(recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n");
+                //fw.write(recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n");
                 //writing all the costs
-                for (int j = 0; j < recipes.get(i).getCosts().size() - 1; j++){
+                /*for (int j = 0; j < recipes.get(i).getCosts().size() - 1; j++){
                     fw.write(recipes.get(i).getCosts().get(j) + "|");
                 }
-                fw.write(recipes.get(i).getCosts().get(recipes.get(i).getCosts().size() - 1) + "\n");
+                fw.write(recipes.get(i).getCosts().get(recipes.get(i).getCosts().size() - 1) + "\n");*/
 
             }
         } catch (IOException e){

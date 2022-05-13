@@ -9,6 +9,7 @@ public class User {
     public User(String userName, String password){
         this.userName = userName;
         this.password = password;
+        thisUserRecipes = new ArrayList<Recipe>();
     }
 
     //getters
@@ -27,5 +28,9 @@ public class User {
 
     public ArrayList<Recipe> getAllRecipesInProgress() {
         return allRecipesInProgress;
+    }
+
+    public void addToUserRecipes(Recipe r){
+        thisUserRecipes.add(r);
     }
 }
