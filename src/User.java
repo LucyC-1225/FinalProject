@@ -4,7 +4,6 @@ public class User {
     private String userName;
     private String password;
     private ArrayList<Recipe> thisUserRecipes;
-    private ArrayList<Recipe> allRecipesInProgress;
 
     public User(String userName, String password){
         this.userName = userName;
@@ -24,10 +23,6 @@ public class User {
 
     public ArrayList<Recipe> getThisUserRecipes() {
         return thisUserRecipes;
-    }
-
-    public ArrayList<Recipe> getAllRecipesInProgress() {
-        return allRecipesInProgress;
     }
 
     public void addToUserRecipes(Recipe r){

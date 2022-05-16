@@ -5,7 +5,6 @@ public class Recipe {
     private String recipeDescription;
     private ArrayList<String> ingredients;
     private ArrayList<String> instructions;
-    private ArrayList<Double> costs;
     private String groupName;
     private String userName;
 
@@ -42,18 +41,6 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public void setCosts(ArrayList<Double> costs) {
-        this.costs = costs;
-    }
-
-    public double calcCosts(){
-        double cost = 0;
-        for (int i = 0; i < costs.size(); i++){
-            cost += costs.get(i);
-        }
-        return cost;
-    }
-
     //getters
 
     public String getRecipeName() {
@@ -72,15 +59,26 @@ public class Recipe {
         return instructions;
     }
 
-    public ArrayList<Double> getCosts() {
-        return costs;
-    }
-
     public String getGroupName() {
         return groupName;
     }
 
     public String getUserName() {
         return userName;
+    }
+
+    public String toString(){
+        String str = "";
+        str += "Recipe name: " + recipeName + "\n";
+        str += "Recipe description: " + recipeDescription + "\n";
+        str += "Ingredients: " + "\n";
+        for (int i = 0; i < ingredients.size(); i++){
+            str += i + 1 + ") " + ingredients.get(i) + "\n";
+        }
+        str += "Instructions: " + "\n";
+        for (int i = 0; i < instructions.size(); i++){
+            str += i + 1 + ") " + instructions.get(i) + "\n";
+        }
+        return str;
     }
 }

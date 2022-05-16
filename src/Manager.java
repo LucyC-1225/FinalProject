@@ -1,7 +1,5 @@
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Manager {
     private ArrayList<User> allUsers;
@@ -48,12 +46,16 @@ public class Manager {
         User u = new User(username, password);
         allUsers.add(u);
         try {
-            File f = new File("src/" + u.getUserName() + ".txt");
-            f.createNewFile();
+            /*File f = new File("src/" + u.getUserName() + ".txt");
+            f.createNewFile();*/
+            FileOutputStream fos = new FileOutputStream("src/" + u.getUserName() + ".txt");
+            fos.flush();
+            fos.close();
         } catch (IOException e){
             System.out.println("Unable to create file");
             e.printStackTrace();
         }
+        save(u);
         return true;
     }
 
@@ -65,9 +67,63 @@ public class Manager {
         user.addToUserRecipes(r);
        // r.setCosts(costs);
     }
-
+    public Recipe findRecipe(User user, String recipeName){
+        ArrayList<Recipe> thisUserRecipes = user.getThisUserRecipes();
+        Recipe r;
+        for (int i = 0; i < thisUserRecipes.size(); i++){
+            if (thisUserRecipes.get(i).getRecipeName().equals(recipeName)){
+                r = thisUserRecipes.get(i);
+                return r;
+            }
+        }
+        return null;
+    }
+    public boolean deleteRecipe(User user, String recipeName){
+        Recipe r = findRecipe(user, recipeName);
+        if (r == null){
+            return false;
+        } else {
+            int index = -1;
+            for (int i = 0; i < user.getThisUserRecipes().size(); i++){
+                if (user.getThisUserRecipes().get(i).getRecipeName().equals(recipeName)){
+                    r = user.getThisUserRecipes().get(i);
+                    index = i;
+                }
+            }
+            user.getThisUserRecipes().remove(index);
+        }
+        return true;
+    }
     public void save(User user){
         try {
+            FileOutputStream fos = new FileOutputStream("src/" + user.getUserName() + ".txt");
+            String username = user.getUserName() + "\n";
+            fos.write(username.getBytes());
+            String password = user.getPassword() + "\n";
+            fos.write(password.getBytes());
+            ArrayList<Recipe> recipes = user.getThisUserRecipes();
+            for (int i = 0; i < recipes.size(); i++) {
+                //writing recipe name
+                String data = recipes.get(i).getRecipeName() + "\n";
+                fos.write(data.getBytes());
+                //writing recipe description
+                String description = recipes.get(i).getRecipeDescription() + "\n";
+                fos.write(description.getBytes());
+                //writing all the ingredients
+                for (int j = 0; j < recipes.get(i).getIngredients().size() - 1; j++) {
+                    String data2 = recipes.get(i).getIngredients().get(j) + "|";
+                    fos.write(data2.getBytes());
+                }
+                String data3 = recipes.get(i).getIngredients().get(recipes.get(i).getIngredients().size() - 1) + "\n";
+                fos.write(data3.getBytes());
+                //writing all the instructions
+                for (int j = 0; j < recipes.get(i).getInstructions().size() - 1; j++) {
+                    String data4 = recipes.get(i).getInstructions().get(j) + "|";
+                    fos.write(data4.getBytes());
+                }
+                String data5 = recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n";
+                fos.write(data5.getBytes());
+            /*
             FileWriter fw = new FileWriter("src/" + user.getUserName() + ".txt");
             fw.write(user.getUserName() + "\n");
             fw.write(user.getPassword() + "\n");
@@ -82,18 +138,39 @@ public class Manager {
                 //writing all the instructions
                 for (int j = 0; j < recipes.get(i).getInstructions().size() - 1; j++){
                     fw.write(recipes.get(i).getInstructions().get(j) + "|");
-                }
+                }*/
+
                 //fw.write(recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n");
                 //writing all the costs
                 /*for (int j = 0; j < recipes.get(i).getCosts().size() - 1; j++){
                     fw.write(recipes.get(i).getCosts().get(j) + "|");
                 }
                 fw.write(recipes.get(i).getCosts().get(recipes.get(i).getCosts().size() - 1) + "\n");*/
-
             }
-        } catch (IOException e){
-            System.out.println("Unable to create file");
+            } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void save(){
+        FileOutputStream f = null;
+        try {
+            f = new FileOutputStream("src/allUsers.text");
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        for (int i = 0; i < allUsers.size(); i++){
+            String name = allUsers.get(i).getUserName() + "\n";
+            try {
+                f.write(name.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void retrieve(){
+
     }
 }
