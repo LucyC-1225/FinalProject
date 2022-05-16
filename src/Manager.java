@@ -171,6 +171,8 @@ public class Manager {
     }
 
     public void retrieve(){
-
+        // read the allUsers.text file and for each line, find the txt file that is associated with that username
+        // create the User object by reading the first two lines of the username.txt file
+        // for every 4 lines of the username.txt file, there is one recipe. Create and set the recipe information. Repeat this until the end of the username.txt file
     }
 }
