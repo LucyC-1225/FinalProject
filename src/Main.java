@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Manager m = new Manager();
+        m.retrieve(); //retrieves previous data
         boolean exit = false;
         while (!exit){
             System.out.println("Welcome to recipe manager!");
@@ -31,8 +32,9 @@ public class Main {
                             System.out.println("1. Create a recipe");
                             System.out.println("2. Delete a recipe");
                             System.out.println("3. View recipe");
-                            System.out.println("4. Log out");
-                            System.out.println("5. Delete account");
+                            System.out.println("4. Edit Recipe");
+                            System.out.println("5. Log out");
+                            System.out.println("6. Delete account");
                             System.out.print("Input: ");
                             int choice = sc.nextInt();
                             if (choice == 1){
@@ -53,7 +55,6 @@ public class Main {
                                         ingredients.add(ingredient);
                                     }
                                 }
-                                //ingredients.remove(ingredients.size() - 1);
                                 System.out.println("Enter each step of the procedure and press enter. When you have entered all the steps, type -1");
                                 done = false;
                                 ArrayList<String> steps = new ArrayList<String>();
@@ -65,7 +66,6 @@ public class Main {
                                         steps.add(step);
                                     }
                                 }
-                                //steps.remove(steps.size() - 1);
                                 m.createRecipe(user, recipeName, description, ingredients, steps);
                             } else if (choice == 2) {
                                 sc.nextLine();
@@ -90,11 +90,48 @@ public class Main {
                                     System.out.println(r);
                                     System.out.println();
                                     System.out.println("press enter when you're done viewing");
-                                    if (sc.nextLine() != null){
-
-                                    }
+                                    if (sc.nextLine() != null){}
                                 }
                             } else if (choice == 4){
+                                sc.nextLine();
+                                System.out.print("Enter the name of the recipe that you want to edit: ");
+                                String recipeName = sc.nextLine();
+                                Recipe r = m.findRecipe(user, recipeName);
+                                if (r == null){
+                                    System.out.println("This recipe does not exist");
+                                } else {
+                                    System.out.println(r);
+                                }
+                                boolean quit = false;
+                                while (!quit){
+                                    System.out.println("------------------------------------------------");
+                                    System.out.println("Which part of the recipe do you want to edit?");
+                                    //recipe edit choices
+                                    System.out.println("1. Edit recipe name");
+                                    System.out.println("2. Edit recipe description");
+                                    System.out.println("3. Edit recipe ingredients");
+                                    System.out.println("4. Edit recipe instructions");
+                                    System.out.println("5. Exit edit mode");
+                                    System.out.print("Input: ");
+
+                                    int option = sc.nextInt();
+                                    if (option == 1){
+                                        System.out.print("Enter the new recipe name: ");
+                                        sc.nextLine();
+                                        m.editRecipeName(user, recipeName, sc.nextLine());
+                                    } else if (option == 2) {
+                                        System.out.print("Enter the new recipe description: ");
+                                        sc.nextLine();
+                                        m.editRecipeDescription(user, recipeName, sc.nextLine());
+                                    } else if (option == 3) {
+
+                                    } else if (option == 4) {
+
+                                    } else if (option == 5) {
+                                        quit = true;
+                                    }
+                                }
+                            } else if (choice == 5){
                                 loggedOut = true;
                                 m.save(user);
                             }
@@ -113,7 +150,7 @@ public class Main {
                 System.out.print("Create a password: ");
                 String password = sc.nextLine();
                 if (m.createUserAccount(userName, password)){
-                    System.out.println("Account creation sucessful. Please now log in.");
+                    System.out.println("Account creation successful. Please now log in.");
                     m.save();
                 } else {
                     System.out.println("Username already exists");

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Manager {
     private ArrayList<User> allUsers;
@@ -46,8 +47,6 @@ public class Manager {
         User u = new User(username, password);
         allUsers.add(u);
         try {
-            /*File f = new File("src/" + u.getUserName() + ".txt");
-            f.createNewFile();*/
             FileOutputStream fos = new FileOutputStream("src/" + u.getUserName() + ".txt");
             fos.flush();
             fos.close();
@@ -65,7 +64,6 @@ public class Manager {
         r.setIngredients(ingredients);
         r.setInstructions(instructions);
         user.addToUserRecipes(r);
-       // r.setCosts(costs);
     }
     public Recipe findRecipe(User user, String recipeName){
         ArrayList<Recipe> thisUserRecipes = user.getThisUserRecipes();
@@ -94,6 +92,17 @@ public class Manager {
         }
         return true;
     }
+
+    public void editRecipeName(User user, String currentRecipeName, String newName){
+        Recipe r = findRecipe(user, currentRecipeName);
+        r.setRecipeName(newName);
+    }
+
+    public void editRecipeDescription(User user, String recipeName, String newName){
+        Recipe r = findRecipe(user, recipeName);
+        r.setRecipeDescription(newName);
+    }
+
     public void save(User user){
         try {
             FileOutputStream fos = new FileOutputStream("src/" + user.getUserName() + ".txt");
@@ -123,31 +132,8 @@ public class Manager {
                 }
                 String data5 = recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n";
                 fos.write(data5.getBytes());
-            /*
-            FileWriter fw = new FileWriter("src/" + user.getUserName() + ".txt");
-            fw.write(user.getUserName() + "\n");
-            fw.write(user.getPassword() + "\n");
-            ArrayList<Recipe> recipes = user.getThisUserRecipes();
-            for (int i = 0; i < recipes.size(); i++){
-                fw.write(recipes.get(i).getRecipeName() + "\n");
-                //writing all the ingredients
-                for (int j = 0; j < recipes.get(i).getIngredients().size() - 1; j++){
-                    fw.write(recipes.get(i).getIngredients().get(j) + "|");
-                }
-                fw.write(recipes.get(i).getIngredients().get(recipes.get(i).getIngredients().size() - 1) + "\n");
-                //writing all the instructions
-                for (int j = 0; j < recipes.get(i).getInstructions().size() - 1; j++){
-                    fw.write(recipes.get(i).getInstructions().get(j) + "|");
-                }*/
-
-                //fw.write(recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n");
-                //writing all the costs
-                /*for (int j = 0; j < recipes.get(i).getCosts().size() - 1; j++){
-                    fw.write(recipes.get(i).getCosts().get(j) + "|");
-                }
-                fw.write(recipes.get(i).getCosts().get(recipes.get(i).getCosts().size() - 1) + "\n");*/
             }
-            } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -171,8 +157,60 @@ public class Manager {
     }
 
     public void retrieve(){
-        // read the allUsers.text file and for each line, find the txt file that is associated with that username
-        // create the User object by reading the first two lines of the username.txt file
-        // for every 4 lines of the username.txt file, there is one recipe. Create and set the recipe information. Repeat this until the end of the username.txt file
+        File file = new File("src/allUsers.text");
+        Scanner sc = null;
+        try {
+            sc = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        //retrieves all usernames ever created
+        ArrayList<String> usernames = new ArrayList<String>();
+        while (sc.hasNextLine()){
+            String str = sc.nextLine();
+            usernames.add(str);
+        }
+        //for every username, there is an account with recipes
+        for (int i = 0; i < usernames.size(); i++){
+            String username = usernames.get(i);
+            File f = new File("src/" + username + ".txt");
+            Scanner sc2 = null;
+            try {
+                sc2 = new Scanner(f);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            sc2.nextLine();
+            String password = sc2.nextLine();
+            //creating user
+            User u = new User(username, password);
+            allUsers.add(u);
+            //every 4 lines is a recipe
+            while (sc2.hasNextLine()){
+                String recipeName = sc2.nextLine();
+                String recipeDescription = sc2.nextLine();
+                String ingredients = sc2.nextLine();
+                String instructions = sc2.nextLine();
+                //turning ingredients into an arrayList
+                ArrayList<String> arrIngredients = convertToArrayList(ingredients);
+                ArrayList<String> arrInstructions = convertToArrayList(instructions);
+                Recipe r = new Recipe(username, recipeName);
+                r.setRecipeDescription(recipeDescription);
+                r.setIngredients(arrIngredients);
+                r.setInstructions(arrInstructions);
+                u.addToUserRecipes(r);
+            }
+        }
+    }
+    private ArrayList<String> convertToArrayList(String str){
+        ArrayList<String> arr = new ArrayList<String>();
+        int index = str.indexOf("|");
+        while (index != -1){
+            arr.add(str.substring(0, index));
+            str = str.substring(index + 1);
+            index = str.indexOf("|");
+        }
+        arr.add(str);
+        return arr;
     }
 }

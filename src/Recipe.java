@@ -5,7 +5,6 @@ public class Recipe {
     private String recipeDescription;
     private ArrayList<String> ingredients;
     private ArrayList<String> instructions;
-    private String groupName;
     private String userName;
 
     public Recipe(String userName, String recipeName){
@@ -25,10 +24,6 @@ public class Recipe {
         instructions.add(instruction);
     }
 
-    public void setGroupName(String name){
-        groupName = name;
-    }
-
     public void setUserName(String name){
         userName = name;
     }
@@ -39,6 +34,10 @@ public class Recipe {
 
     public void setInstructions(ArrayList<String> instructions) {
         this.instructions = instructions;
+    }
+
+    public void setRecipeName(String name){
+        recipeName = name;
     }
 
     //getters
@@ -57,10 +56,6 @@ public class Recipe {
 
     public ArrayList<String> getInstructions() {
         return instructions;
-    }
-
-    public String getGroupName() {
-        return groupName;
     }
 
     public String getUserName() {
