@@ -31,7 +31,7 @@ public class Main {
                             System.out.println("What do you want to do? Note that you must log out or else your changes will not save");
                             System.out.println("1. Create a recipe");
                             System.out.println("2. Delete a recipe");
-                            System.out.println("3. View recipe");
+                            System.out.println("3. View recipe"); //create GUI that displays all the recipes in the account and lets the user choose which to view
                             System.out.println("4. Edit Recipe");
                             System.out.println("5. Log out");
                             System.out.println("6. Delete account");
@@ -80,7 +80,9 @@ public class Main {
                                 }
                             } else if (choice == 3) {
                                 sc.nextLine();
-                                System.out.print("Enter the name of the recipe you want to find: ");
+                                GUIController g = new GUIController(user);
+                                System.out.println(m.getAllRecipeNames(user));
+                                System.out.print("Enter the name of the recipe you want to view: ");
                                 String recipeName = sc.nextLine();
                                 Recipe r = m.findRecipe(user, recipeName);
                                 if (r == null){
@@ -94,6 +96,7 @@ public class Main {
                                 }
                             } else if (choice == 4){
                                 sc.nextLine();
+                                System.out.println(m.getAllRecipeNames(user));
                                 System.out.print("Enter the name of the recipe that you want to edit: ");
                                 String recipeName = sc.nextLine();
                                 Recipe r = m.findRecipe(user, recipeName);
@@ -124,6 +127,48 @@ public class Main {
                                         sc.nextLine();
                                         m.editRecipeDescription(user, recipeName, sc.nextLine());
                                     } else if (option == 3) {
+                                        boolean stop = false;
+                                        while (!stop) {
+                                            System.out.println("------------------------------------------------");
+                                            System.out.println("Current instructions for this recipe: ");
+                                            System.out.println(m.getCurrentInstructions(user, recipeName));
+                                            System.out.println("What do you want to do?");
+                                            System.out.println("1. Add an instruction");
+                                            System.out.println("2. Delete an instruction");
+                                            System.out.println("3. Modify an instruction");
+                                            System.out.println("4. Exit");
+                                            System.out.print("Input: ");
+                                            int pick = sc.nextInt();
+
+                                            if (pick == 1) {
+                                                System.out.println("The current instructions for this recipe: ");
+                                                System.out.println(m.getCurrentInstructions(user, recipeName));
+                                                sc.nextLine();
+                                                System.out.print("Enter the instruction that you want to add: ");
+                                                String newInstruction = sc.nextLine();
+                                                m.addInstruction(user, recipeName, newInstruction);
+                                                System.out.println("Instruction added");
+                                            } else if (pick == 2) {
+                                                System.out.println("The current instructions for this recipe: ");
+                                                System.out.println(m.getCurrentInstructions(user, recipeName));
+                                                System.out.print("Enter the number of the instruction that you want to delete: ");
+                                                int indexRemoved = sc.nextInt() - 1;
+                                                m.deleteInstruction(user, recipeName, indexRemoved);
+                                                System.out.println("Instruction removed");
+                                            } else if (pick == 3) {
+                                                System.out.println("The current instructions for this recipe: ");
+                                                System.out.println(m.getCurrentInstructions(user, recipeName));
+                                                System.out.print("Enter the number of the instruction that you want to modify: ");
+                                                int indexModify = sc.nextInt() - 1;
+                                                System.out.print("Enter the modified instruction: ");
+                                                sc.nextLine();
+                                                String modifiedInstruction = sc.nextLine();
+                                                m.editInstruction(user, recipeName, indexModify, modifiedInstruction);
+                                                System.out.println("Instruction modified");
+                                            } else if (pick == 4) {
+                                                stop = true;
+                                            }
+                                        }
 
                                     } else if (option == 4) {
 

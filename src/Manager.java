@@ -76,6 +76,14 @@ public class Manager {
         }
         return null;
     }
+    public String getAllRecipeNames(User user) {
+        ArrayList<String> allRecipenames = new ArrayList<String>();
+        String str = "";
+        for (int i = 0; i < user.getThisUserRecipes().size(); i++) {
+            str += i + 1 + ". " + user.getThisUserRecipes().get(i).getRecipeName() + "\n";
+        }
+        return str;
+    }
     public boolean deleteRecipe(User user, String recipeName){
         Recipe r = findRecipe(user, recipeName);
         if (r == null){
@@ -102,7 +110,27 @@ public class Manager {
         Recipe r = findRecipe(user, recipeName);
         r.setRecipeDescription(newName);
     }
-
+    public String getCurrentInstructions(User user, String recipeName) {
+        Recipe r = findRecipe(user, recipeName);
+        ArrayList<String> recipeInstructions = r.getInstructions();
+        String str = "";
+        for (int i = 0; i < recipeInstructions.size(); i++) {
+            str += i + 1 + ". " + recipeInstructions.get(i) + "\n";
+        }
+        return str;
+    }
+    public void addInstruction(User user, String recipeName, String newInstruction) {
+        Recipe r = findRecipe(user, recipeName);
+        r.addInstructions(newInstruction);
+    }
+    public void deleteInstruction(User user, String recipeName, int index) {
+        Recipe r = findRecipe(user, recipeName);
+        r.getInstructions().remove(index);
+    }
+    public void editInstruction(User user, String recipeName, int index, String modifiedInstruction) {
+        Recipe r = findRecipe(user, recipeName);
+        r.getInstructions().set(index, modifiedInstruction);
+    }
     public void save(User user){
         try {
             FileOutputStream fos = new FileOutputStream("src/" + user.getUserName() + ".txt");
