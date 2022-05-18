@@ -90,17 +90,12 @@ public class GUIController implements ActionListener {
             String selectedMovieNum = recipeEntryField.getText();
             int movieNumInt = Integer.parseInt(selectedMovieNum);
 
-            // obtain the movie in the nowPlaying arraylist that the number they
-            // typed in corresponds to
             int movieIdx = movieNumInt - 1;
             Recipe selectedRecipe = allUserRecipes.get(movieIdx);
 
-            // call private method to load movie info for that Movie object
             loadRecipeInfo(selectedRecipe);
         }
 
-        // if user clicked "Reset" button, set the text field back to empty string
-        // and load the Now Playing list again
         else if (text.equals("Reset")) {
             recipeEntryField.setText("");
             loadAllRecipes();
