@@ -95,6 +95,7 @@ public class Main {
                                     if (sc.nextLine() != null){}
                                 }
                             } else if (choice == 4){
+                                boolean quit = false;
                                 sc.nextLine();
                                 System.out.println(m.getAllRecipeNames(user));
                                 System.out.print("Enter the name of the recipe that you want to edit: ");
@@ -102,10 +103,10 @@ public class Main {
                                 Recipe r = m.findRecipe(user, recipeName);
                                 if (r == null){
                                     System.out.println("This recipe does not exist");
+                                    quit = true;
                                 } else {
                                     System.out.println(r);
                                 }
-                                boolean quit = false;
                                 while (!quit){
                                     System.out.println("------------------------------------------------");
                                     System.out.println("Which part of the recipe do you want to edit?");
@@ -127,6 +128,49 @@ public class Main {
                                         sc.nextLine();
                                         m.editRecipeDescription(user, recipeName, sc.nextLine());
                                     } else if (option == 3) {
+                                        boolean stop = false;
+                                        while (!stop) {
+                                            System.out.println("------------------------------------------------");
+                                            System.out.println("Current ingredients for this recipe: ");
+                                            System.out.println(m.getCurrentIngredients(user, recipeName));
+                                            System.out.println("What do you want to do?");
+                                            System.out.println("1. Add an ingredient");
+                                            System.out.println("2. Delete an ingredient");
+                                            System.out.println("3. Modify an ingredient");
+                                            System.out.println("4. Exit");
+                                            System.out.print("Input: ");
+                                            int pick = sc.nextInt();
+
+                                            if (pick == 1) {
+                                                System.out.println("The current ingredients for this recipe: ");
+                                                System.out.println(m.getCurrentIngredients(user, recipeName));
+                                                sc.nextLine();
+                                                System.out.print("Enter the ingredient that you want to add: ");
+                                                String newIngredient = sc.nextLine();
+                                                m.addIngredient(user, recipeName, newIngredient);
+                                                System.out.println("Ingredient added");
+                                            } else if (pick == 2) {
+                                                System.out.println("The current ingredients for this recipe: ");
+                                                System.out.println(m.getCurrentIngredients(user, recipeName));
+                                                System.out.print("Enter the number of the ingredient that you want to delete: ");
+                                                int indexRemoved = sc.nextInt() - 1;
+                                                m.deleteIngredient(user, recipeName, indexRemoved);
+                                                System.out.println("Ingredient removed");
+                                            } else if (pick == 3) {
+                                                System.out.println("The current ingredients for this recipe: ");
+                                                System.out.println(m.getCurrentIngredients(user, recipeName));
+                                                System.out.print("Enter the number of the ingredient that you want to modify: ");
+                                                int indexModify = sc.nextInt() - 1;
+                                                System.out.print("Enter the modified ingredient: ");
+                                                sc.nextLine();
+                                                String modifiedIngredient = sc.nextLine();
+                                                m.editIngredient(user, recipeName, indexModify, modifiedIngredient);
+                                                System.out.println("Ingredient modified");
+                                            } else if (pick == 4) {
+                                                stop = true;
+                                            }
+                                        }
+                                    } else if (option == 4) {
                                         boolean stop = false;
                                         while (!stop) {
                                             System.out.println("------------------------------------------------");
@@ -170,8 +214,6 @@ public class Main {
                                             }
                                         }
 
-                                    } else if (option == 4) {
-
                                     } else if (option == 5) {
                                         quit = true;
                                     }
@@ -179,6 +221,19 @@ public class Main {
                             } else if (choice == 5){
                                 loggedOut = true;
                                 m.save(user);
+                            } else if (choice == 6) {
+                                sc.nextLine();
+                                System.out.print("Are you sure you want to delete your account? All data will be lost. Enter Yes or No: ");
+                                String response = sc.nextLine();
+                                if (response.equalsIgnoreCase("yes")){
+                                    m.deleteAccount(user);
+                                    m.removeUser(user);
+                                    m.save();
+                                    System.out.println("You account has been deleted.");
+                                    loggedOut = true;
+                                } else {
+                                    System.out.println("Your account has not been deleted.");
+                                }
                             }
                         }
                     } else {

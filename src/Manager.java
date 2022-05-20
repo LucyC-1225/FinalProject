@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,6 +19,14 @@ public class Manager {
             }
         }
         return null;
+    }
+    public void removeUser(User user) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            if (user.getUserName().equals(allUsers.get(i).getUserName())){
+                allUsers.remove(i);
+                i--;
+            }
+        }
     }
     public boolean userNameExists(String username){
         for (int i = 0; i < allUsers.size(); i++){
@@ -131,6 +140,27 @@ public class Manager {
         Recipe r = findRecipe(user, recipeName);
         r.getInstructions().set(index, modifiedInstruction);
     }
+    public String getCurrentIngredients(User user, String recipeName) {
+        Recipe r = findRecipe(user, recipeName);
+        ArrayList<String> recipeIngredients = r.getIngredients();
+        String str = "";
+        for (int i = 0; i < recipeIngredients.size(); i++) {
+            str += i + 1 + ". " + recipeIngredients.get(i) + "\n";
+        }
+        return str;
+    }
+    public void addIngredient(User user, String recipeName, String newIngredient) {
+        Recipe r = findRecipe(user, recipeName);
+        r.addIngredients(newIngredient);
+    }
+    public void deleteIngredient(User user, String recipeName, int index) {
+        Recipe r = findRecipe(user, recipeName);
+        r.getIngredients().remove(index);
+    }
+    public void editIngredient(User user, String recipeName, int index, String modifiedIngredient) {
+        Recipe r = findRecipe(user, recipeName);
+        r.getIngredients().set(index, modifiedIngredient);
+    }
     public void save(User user){
         try {
             FileOutputStream fos = new FileOutputStream("src/" + user.getUserName() + ".txt");
@@ -228,7 +258,9 @@ public class Manager {
                 r.setInstructions(arrInstructions);
                 u.addToUserRecipes(r);
             }
+            sc2.close();
         }
+        sc.close();
     }
     private ArrayList<String> convertToArrayList(String str){
         ArrayList<String> arr = new ArrayList<String>();
@@ -240,5 +272,13 @@ public class Manager {
         }
         arr.add(str);
         return arr;
+    }
+    public void deleteAccount(User user) {
+        File file = new File("src/" + user.getUserName() + ".txt");
+        try {
+            Files.deleteIfExists(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
