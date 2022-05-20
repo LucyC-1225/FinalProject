@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
         Manager m = new Manager();
         m.retrieve(); //retrieves previous data
@@ -70,6 +69,7 @@ public class Main {
                                 m.createRecipe(user, recipeName, description, ingredients, steps);
                             } else if (choice == 2) {
                                 sc.nextLine();
+                                System.out.println(m.getAllRecipeNames(user));
                                 System.out.print("Enter the name of the recipe you want to delete: ");
                                 String recipeName = sc.nextLine();
                                 Recipe r = m.findRecipe(user, recipeName);

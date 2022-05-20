@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Manager {
-
     private ArrayList<User> allUsers;
 
     public Manager(){
