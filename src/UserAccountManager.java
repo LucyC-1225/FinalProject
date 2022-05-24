@@ -3,10 +3,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Manager {
+public class UserAccountManager {
     private ArrayList<User> allUsers;
 
-    public Manager(){
+    public UserAccountManager(){
         allUsers = new ArrayList<User>();
     }
     public void addUser(User user){

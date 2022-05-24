@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class DisplayOptions {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Manager m = new Manager();
+        UserAccountManager m = new UserAccountManager();
         m.retrieve(); //retrieves previous data
         boolean exit = false;
         while (!exit){

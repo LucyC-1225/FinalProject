@@ -1,6 +1,6 @@
 lucy
 123
-cake
+Cake
 best cake ever
 sugar|egg|flour
 step 1|step 2|step 3
