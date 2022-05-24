@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class GUIController implements ActionListener {
+public class ViewRecipesGUI implements ActionListener {
     private JTextArea recipeInfo; //multiple lines of text
     private JTextField recipeEntryField; //one line of text
     private ArrayList<Recipe> allUserRecipes;
     private User user;
 
-    public GUIController(User user) {
+    public ViewRecipesGUI(User user) {
         this.user = user;
         recipeInfo = new JTextArea(20, 35); // change size if needed
         recipeEntryField = new JTextField();

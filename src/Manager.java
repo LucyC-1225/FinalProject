@@ -171,25 +171,25 @@ public class Manager {
             ArrayList<Recipe> recipes = user.getThisUserRecipes();
             for (int i = 0; i < recipes.size(); i++) {
                 //writing recipe name
-                String data = recipes.get(i).getRecipeName() + "\n";
-                fos.write(data.getBytes());
+                String name = recipes.get(i).getRecipeName() + "\n";
+                fos.write(name.getBytes());
                 //writing recipe description
                 String description = recipes.get(i).getRecipeDescription() + "\n";
                 fos.write(description.getBytes());
                 //writing all the ingredients
                 for (int j = 0; j < recipes.get(i).getIngredients().size() - 1; j++) {
-                    String data2 = recipes.get(i).getIngredients().get(j) + "|";
-                    fos.write(data2.getBytes());
+                    String ingredient = recipes.get(i).getIngredients().get(j) + "|";
+                    fos.write(ingredient.getBytes());
                 }
-                String data3 = recipes.get(i).getIngredients().get(recipes.get(i).getIngredients().size() - 1) + "\n";
-                fos.write(data3.getBytes());
+                String lastIngredient = recipes.get(i).getIngredients().get(recipes.get(i).getIngredients().size() - 1) + "\n";
+                fos.write(lastIngredient.getBytes());
                 //writing all the instructions
                 for (int j = 0; j < recipes.get(i).getInstructions().size() - 1; j++) {
-                    String data4 = recipes.get(i).getInstructions().get(j) + "|";
-                    fos.write(data4.getBytes());
+                    String instruction = recipes.get(i).getInstructions().get(j) + "|";
+                    fos.write(instruction.getBytes());
                 }
-                String data5 = recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n";
-                fos.write(data5.getBytes());
+                String lastInstruction = recipes.get(i).getInstructions().get(recipes.get(i).getInstructions().size() - 1) + "\n";
+                fos.write(lastInstruction.getBytes());
             }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();

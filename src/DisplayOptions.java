@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-public class Main {
+public class DisplayOptions {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Manager m = new Manager();
@@ -81,7 +81,7 @@ public class Main {
                                 }
                             } else if (choice == 3) {
                                 sc.nextLine();
-                                GUIController g = new GUIController(user);
+                                ViewRecipesGUI g = new ViewRecipesGUI(user);
                                 System.out.println(m.getAllRecipeNames(user));
                                 System.out.print("Enter the name of the recipe you want to view: ");
                                 String recipeName = sc.nextLine();

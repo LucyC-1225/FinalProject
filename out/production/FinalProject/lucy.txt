@@ -2,9 +2,5 @@ lucy
 123
 cake
 best cake ever
-egg|flour|milk
-qwe|qweqweqweqweq|rtyhrtjyortiyjrty
-coffee
-best coffee
-coffee beans|milk|sugar
-sdfg|sdf|qwer
+sugar|egg|flour
+step 1|step 2|step 3
