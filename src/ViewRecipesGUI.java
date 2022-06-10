@@ -87,11 +87,11 @@ public class ViewRecipesGUI implements ActionListener {
         String text = button.getText();
 
         if (text.equals("Send")) {
-            String selectedMovieNum = recipeEntryField.getText();
-            int movieNumInt = Integer.parseInt(selectedMovieNum);
+            String selectedRecipeNum = recipeEntryField.getText();
+            int recipeNum = Integer.parseInt(selectedRecipeNum);
 
-            int movieIdx = movieNumInt - 1;
-            Recipe selectedRecipe = allUserRecipes.get(movieIdx);
+            int recipeIdx = recipeNum - 1;
+            Recipe selectedRecipe = allUserRecipes.get(recipeIdx);
 
             loadRecipeInfo(selectedRecipe);
         }
